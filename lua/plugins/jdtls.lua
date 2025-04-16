@@ -95,6 +95,7 @@ local function get_jdtls_paths()
     {
       name = "JavaSE-17",
       path = "C:/Program Files/Java/jdk-17/",
+      default = true,
     },
   }
 
@@ -121,7 +122,6 @@ local function enable_debugger(bufnr)
 
   -- You don't need this if you configure manually the DAP in dap.lua
   -- require('jdtls.dap').setup_dap_main_class_configs()
-  require('jdtls.dap').setup_dap_main_class_configs()
 end
 
 local function jdtls_on_attach(client, bufnr)
@@ -171,8 +171,10 @@ local function jdtls_setup()
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
-    '-Dlog.protocol=true',
-    '-Dlog.level=ALL',
+
+    -- '-Dlog.protocol=true',
+    '-Dlog.level=INFO',
+
     '-javaagent:' .. path.lombok,
     '--add-modules=ALL-SYSTEM',
     '--add-opens',
@@ -204,21 +206,21 @@ local function jdtls_setup()
       server = {
         launchMode = "Hybrid",
       },
+      edit = {
+        validateAllOpenBuffersOnChanges = true,
+      },
+      diagnostic = {
+        filter = {
+          "**/target",
+        }
+      },
       project = {
         resourceFilters = {
           ".git",
-          -- "target",
+          "node_modules",
         },
       },
-      -- build = {
-      --   excludeFromClasspath = { "**/target/**" },
-      -- },
-      import = {
-        generatesMetadataFilesAtProjectRoot = false,
-        exclusions = {
-          "**/target/**"
-        },
-      },
+      maxConcurrentBuilds = 1,
       eclipse = {
         downloadSources = true,
       },
@@ -241,16 +243,16 @@ local function jdtls_setup()
       -- saveActions = {
       --   organizeImports = true, -- Organize imports on save
       -- },
-      -- inlayHints = {
-      --   parameterNames = {
-      --     enabled = 'none' -- literals, all, none
-      --   }
-      -- },
+      inlayHints = {
+        parameterNames = {
+          enabled = 'all' -- literals, all, none
+        }
+      },
       format = {
         enabled = true,
-        -- settings = {
-        --   profile = 'asdf'
-        -- },
+        settings = {
+          profile = 'C:/Users/crme107/AppData/Local/nvim/format-styles/eclipse-java-format.xml',
+        },
       }
     },
     signatureHelp = {

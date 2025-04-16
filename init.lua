@@ -217,9 +217,9 @@ require("lazy").setup({
 					"jsonls",
 					"lemminx",
 					"marksman",
-					"gradle_ls",
 					"html",
 					"angularls",
+					"cssls",
 				},
 			})
 
@@ -227,8 +227,8 @@ require("lazy").setup({
 				ensure_installed = {
 					"google-java-format",
 					"stylua",
-					"shellcheck",
-					"shfmt",
+					-- "shellcheck",
+					-- "shfmt",
 					"java-test",
 					"java-debug-adapter",
 					"markdown-toc",
@@ -359,7 +359,6 @@ require("lazy").setup({
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					java = { "google-java-format" },
 				},
 			})
 		end,
