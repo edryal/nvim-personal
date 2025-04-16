@@ -7,7 +7,9 @@ The following tools must be available in your PATH:
 
 - **unzip** - Necessary for Mason
 - **make** - Build automation tool
+- **fd** - alternative to "find"
 - **fzf** - Command-line fuzzy finder
+- **ripgrep** - Directory regex matcher
 - **gcc** - GNU Compiler
 - **Node.js** - JavaScript runtime environment
 
@@ -15,7 +17,7 @@ The following tools must be available in your PATH:
 
 #### Using [Scoop](https://scoop.sh/) (Windows):
 ```
-scoop install unzip make gcc fzf
+scoop install unzip make fd fzf ripgrep gcc
 ```
 
 For Node.js, install directly from the [official website](https://nodejs.org/en).
