@@ -5,7 +5,7 @@
 ### Required Tools
 The following tools must be available in your PATH:
 
--- **unzip** - Necessary for Mason
+- **unzip** - Necessary for Mason
 - **make** - Build automation tool
 - **fzf** - Command-line fuzzy finder
 - **gcc** - GNU Compiler
