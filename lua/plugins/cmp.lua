@@ -65,6 +65,18 @@ return {
         },
         { name = "path" },
       }),
+      sorting = {
+        -- priority_weight = 1.0,
+        comparators = {
+          cmp.config.compare.score,
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.kind,
+          -- cmp.config.compare.sort_text,
+          -- cmp.config.compare.length,
+          -- cmp.config.compare.order,
+        }
+      }
     })
 
     -- `/` cmdline setup
@@ -81,13 +93,13 @@ return {
       sources = cmp.config.sources({
         { name = "path" },
       }, {
-          {
-            name = "cmdline",
-            option = {
-              ignore_cmds = { "Man", "!" },
-            },
+        {
+          name = "cmdline",
+          option = {
+            ignore_cmds = { "Man", "!" },
           },
-        }),
+        },
+      }),
     })
   end,
 }

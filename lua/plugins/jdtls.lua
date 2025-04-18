@@ -12,7 +12,7 @@ local root_markers = {
 }
 
 local features = {
-  codelens = true,
+  codelens = false,
   debugger = true,
 }
 
@@ -107,7 +107,7 @@ end
 local function enable_codelens(bufnr)
   pcall(vim.lsp.codelens.refresh)
 
-  vim.api.nvim_create_autocmd('BufWritePost', {
+  vim.api.nvim_create_autocmd({'BufEnter', 'InsertLeave'}, {
     buffer = bufnr,
     group = java_cmds,
     desc = 'refresh codelens',
@@ -121,7 +121,7 @@ local function enable_debugger(bufnr)
   require('jdtls').setup_dap({ hotcodereplace = 'auto' })
 
   -- You don't need this if you configure manually the DAP in dap.lua
-  -- require('jdtls.dap').setup_dap_main_class_configs()
+  require('jdtls.dap').setup_dap_main_class_configs()
 end
 
 local function jdtls_on_attach(client, bufnr)
@@ -200,7 +200,7 @@ local function jdtls_setup()
           -- Convenient to solve version mismatches for some old projects
           java = { home = "C:/Program Files/Java/jdk-21/" },
           vmargs =
-          "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx3G -Xms256m -Xlog:disable"
+          "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx4G -Xms256m"
         }
       },
       server = {
@@ -240,13 +240,13 @@ local function jdtls_setup()
       referencesCodeLens = {
         enabled = true,
       },
-      -- saveActions = {
-      --   organizeImports = true, -- Organize imports on save
-      -- },
+      saveActions = {
+        organizeImports = false,
+      },
       inlayHints = {
         parameterNames = {
-          enabled = 'all' -- literals, all, none
-        }
+          enabled = 'all',
+        },
       },
       format = {
         enabled = true,
@@ -275,6 +275,7 @@ local function jdtls_setup()
         "jdk.*",
         "sun.*",
       },
+      guessMethodArguments = true,
     },
     contentProvider = {
       preferred = 'fernflower',

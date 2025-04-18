@@ -14,6 +14,7 @@ return {
             { '<leader>t', group = '[T]oggle' },
             { '<leader>n', group = '[N]otification' },
             { '<leader>o', group = '[O]pen' },
+            { '<leader>b', group = '[B]uffers' },
         },
     }
 }

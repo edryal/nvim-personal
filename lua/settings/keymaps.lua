@@ -34,7 +34,7 @@ keymap("n", "<leader>cq", "<cmd>Trouble quickfix focus = true<cr>", { desc = "Di
 -- [[ Toggles ]]
 keymap("n", "<leader>ts", "<cmd>ASToggle<cr>", { desc = "Toggle Autosave", noremap = true })
 keymap("n", "<leader>tl", '<cmd>lua require("lsp_lines").toggle()<cr>', { desc = "Toggle LSP Lines", noremap = true })
-keymap("n", "<leader>tv", "<cmd>ToggleVirtualText<cr>", { desc = "Toggle Diagnostic Virtual Lines", noremap = true })
+-- keymap("n", "<leader>tv", "<cmd>ToggleVirtualText<cr>", { desc = "Toggle Diagnostic Virtual Lines", noremap = true })
 keymap("n", "<leader>ta", '<cmd>lua require("settings.options").toggle_option("number")<cr>', { desc = "Absolute Code Line Numbers", noremap = true })
 keymap("n", "<leader>tr", '<cmd>lua require("settings.options").toggle_option("relativenumber")<cr>', { desc = "Relative Code Line Numbers", noremap = true })
 
@@ -53,8 +53,7 @@ keymap("n", "<leader>je", "<Cmd>JdtSetRuntime<CR>", { desc = "Choose Java Runtim
 
 -- [[ Debug ]]
 keymap("n", "<leader>ds", ":lua require'dap'.continue()<cr>", { desc = "Start/Continue", noremap = true })
-
-keymap("n", "<leader>dd", ":lua require'dap'.toggle()<cr>", { desc = "Dap UI", noremap = true })
+keymap("n", "<leader>dd", ":lua require'dapui'.toggle()<cr>", { desc = "Dap UI", noremap = true })
 keymap("n", "<leader>dt", ":lua require'dap'.terminate()<cr>", { desc = "Terminate Session", noremap = true })
 keymap("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<cr>", { desc = "Breakpoint", noremap = true })
 keymap("n", "<leader>dc", ":lua require'dap'.clear_breakpoints()<cr>", { desc = "Clear Breakpoints", noremap = true })
@@ -70,6 +69,10 @@ keymap("n", "<leader>ov", ':ToggleTerm size=50 direction=vertical<cr>', { desc =
 
 -- [[ LazyDocker ]]
 keymap("n", "<leader>Cd", '<cmd>LazyDocker<cr>', { desc = "Run LazyDocker", noremap = true })
+
+-- [[ Buffers ]]
+keymap("n", "<leader>bo", ':BufDelOthers', { desc = "Close all other buffers", noremap = true })
+keymap("n", "<leader>bd", ':BufDel', { desc = "Close current buffer", noremap = true })
 
 -- [[ LSP Basics ]]
 vim.api.nvim_create_autocmd('LspAttach', {

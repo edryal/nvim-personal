@@ -194,7 +194,7 @@ require("lazy").setup({
 		},
 		config = function()
 			-- LSP log level for debugging
-			vim.lsp.set_log_level("debug")
+			vim.lsp.set_log_level("info")
 
 			-- Setup mason
 			require("mason").setup()

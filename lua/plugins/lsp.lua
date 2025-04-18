@@ -23,7 +23,9 @@ config.capabilities.textDocument.completion.completionItem = {
 }
 
 config.defaults = function()
-  require("lspconfig").lua_ls.setup {
+  local lsp = require('lspconfig')
+
+  lsp.lua_ls.setup {
     on_attach = config.on_attach,
     capabilities = config.capabilities,
     on_init = config.on_init,
