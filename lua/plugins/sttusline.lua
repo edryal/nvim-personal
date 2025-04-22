@@ -1,23 +1,23 @@
 return {
     "sontungexpt/sttusline",
+    branch = "table_version",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
     },
     event = { "BufEnter" },
     config = function()
-        require("sttusline").setup {
-            -- statusline_color = "#000000",
-            statusline_color = "#26233a",
+        vim.opt.laststatus = 3
 
-            -- | 1 | 2 | 3
-            -- recommended: 3
-            laststatus = 3,
+        require("sttusline").setup {
+            on_attach = function(create_update_group) end,
+
+            statusline_color = "StatusLine",
             disabled = {
                 filetypes = {
                     "NvimTree",
                 },
                 buftypes = {
-                    -- "terminal",
+                    "terminal",
                 },
             },
             components = {
@@ -28,11 +28,8 @@ return {
                 "%=",
                 "diagnostics",
                 "lsps-formatters",
-                -- "copilot",
                 "indent",
-                "encoding",
                 "pos-cursor",
-                "pos-cursor-progress",
             },
         }
     end,

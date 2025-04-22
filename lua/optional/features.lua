@@ -1,25 +1,41 @@
 return {
-
 	-- Autosave feature
 	{
-		"okuuva/auto-save.nvim",
-		cmd = "ASToggle", -- Use this cmd if you want to enable or Space + t + s
-		opts = {
-			execution_message = {
-				enabled = false,
-			},
-			debounce_delay = 5000,
-		},
+		'0x00-ketsu/autosave.nvim',
+		event = { "InsertLeave", "TextChanged" },
+		config = function()
+			require('autosave').setup(
+				{
+					enable = false,
+					prompt = {
+						enable = true,
+						style = 'stdout',
+						message = function()
+							return 'Autosave: saved at ' .. vim.fn.strftime('%H:%M:%S')
+						end,
+					},
+					events = { 'InsertLeave', 'TextChanged' },
+					conditions = {
+						exists = true,
+						modifiable = true,
+						filename_is_not = {},
+						filetype_is_not = {}
+					},
+					write_all_buffers = false,
+					debounce_delay = 135
+				}
+			)
+		end
 	},
 
-	-- Lsp server status updates
+	-- LSP server status updates
 	{
 		"j-hui/fidget.nvim",
 		event = "LspAttach",
 		opts = {},
 	},
 
-	-- Electric indentation
+	-- Indentation
 	{
 		"nmac427/guess-indent.nvim",
 		lazy = true,
@@ -70,47 +86,6 @@ return {
 			})
 		end,
 	},
-
-	-- Delete whitespaces automatically on save
-	-- {
-	-- 	"saccarosium/nvim-whitespaces",
-	-- 	event = "BufWritePre",
-	-- 	opts = {
-	-- 		handlers = {},
-	-- 	},
-	-- },
-
-	{
-		"NStefan002/visual-surround.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("visual-surround").setup({
-				-- your config
-			})
-		end,
-	},
-
-	-- Session management
-	-- auto save and restore the last session
-	-- {
-	-- 	"olimorris/persisted.nvim",
-	-- 	lazy = false,
-	-- 	config = function()
-	-- 		require("persisted").setup({
-	-- 			ignored_dirs = {
-	-- 				"~/.config",
-	-- 				"~/.local/nvim",
-	-- 				{ "/",    exact = true },
-	-- 				{ "/tmp", exact = true },
-	-- 			},
-	-- 			autoload = true,
-	-- 			on_autoload_no_session = function()
-	-- 				vim.notify("No existing session to load.")
-	-- 			end,
-	-- 		})
-	-- 	end,
-	-- },
-
 
 	-- Tmux Integration
 	-- {
