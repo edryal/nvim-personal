@@ -13,7 +13,7 @@ return {
       pattern = "java",
       callback = function()
         local dbxreference = require('lspconfig.util').find_git_ancestor(vim.loop.cwd())
-        local java_path = "C:\\Program Files\\Java\\"
+        local java_path = "C:/Program Files/Java/"
         dap.configurations.java = {
           -- Custom & project specific configurations
           {
@@ -21,44 +21,44 @@ return {
             type = "java",
             request = "launch",
 
-            cwd = dbxreference .. "\\dbxreferenceserver",
+            cwd = dbxreference .. "/dbxreferenceserver",
             mainClass = "com.iongroup.dbx.anagrafe.server.DbxReferenceServerMain",
 
-            javaExec = java_path .. "jdk-17\\bin\\java",
-            vmArgs = "-Dconfig.file=" .. dbxreference .. "\\dbxreferenceserver\\mkv.jinit",
+            javaExec = java_path .. "jdk-17/bin/java",
+            vmArgs = "-Dconfig.file=" .. dbxreference .. "/dbxreferenceserver/mkv.jinit",
           },
           {
             name = "Launch reference-apiwrapper",
             type = "java",
             request = "launch",
 
-            cwd = dbxreference .. "\\dbxreferenceapiwrapper",
+            cwd = dbxreference .. "/dbxreferenceapiwrapper",
             mainClass = "com.iongroup.dbx.anagrafe.dbxreferenceapiwrapper.ApiWrapperMain",
 
-            javaExec = java_path .. "jdk-17\\bin\\java",
-            vmArgs = "-Dconfig.file=" .. dbxreference .. "\\dbxreferenceapiwrapper\\mkv.jinit",
+            javaExec = java_path .. "jdk-17/bin/java",
+            vmArgs = "-Dconfig.file=" .. dbxreference .. "/dbxreferenceapiwrapper/mkv.jinit",
           },
           {
             name = "Launch reference-dataprovider",
             type = "java",
             request = "launch",
 
-            cwd = dbxreference .. "\\dbxreferencedataprovider",
+            cwd = dbxreference .. "/dbxreferencedataprovider",
             mainClass = "com.iongroup.dbx.anagrafe.dataprovider.DataProviderMain",
 
-            javaExec = java_path .. "jdk-17\\bin\\java",
-            vmArgs = "-Dconfig.file=" .. dbxreference .. "\\dbxreferencedataprovider\\mkv.jinit",
+            javaExec = java_path .. "jdk-17/bin/java",
+            vmArgs = "-Dconfig.file=" .. dbxreference .. "/dbxreferencedataprovider/mkv.jinit",
           },
           {
             name = "Launch reference-cerved",
             type = "java",
             request = "launch",
 
-            cwd = dbxreference .. "\\dbxreferencecerved",
+            cwd = dbxreference .. "/dbxreferencecerved",
             mainClass = "com.iongroup.dbx.anagrafe.cerved.DbxReferenceCervedMain",
 
-            javaExec = java_path .. "jdk-17\\bin\\java",
-            vmArgs = "-Dconfig.file=" .. dbxreference .. "\\dbxreferencecerved\\mkv.jinit",
+            javaExec = java_path .. "jdk-17/bin/java",
+            vmArgs = "-Dconfig.file=" .. dbxreference .. "/dbxreferencecerved/mkv.jinit",
           },
 
           -- Generic java configurations

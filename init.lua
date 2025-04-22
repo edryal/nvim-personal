@@ -36,104 +36,30 @@ require("lazy").setup({
 	require("plugins.whichkey"),
 	require("plugins.sttusline"),
 	require("plugins.cmp"),
+	require("plugins.harpoon"),
+
+	{ "antoinemadec/FixCursorHold.nvim", config = function() end },
+	require("plugins.neotest"),
 
 	--------------------------------------
 	-- UI --
 	--------------------------------------
 
 	-- Essential lua functions
-	{ "nvim-lua/plenary.nvim",       lazy = true },
+	{ "nvim-lua/plenary.nvim",          lazy = true },
 
 	-- Functions for buffer management
-	{ 'ojroques/nvim-bufdel',        cmd = { "BufDel", "BufDelOthers" } },
-	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{ 'ojroques/nvim-bufdel',           cmd = { "BufDel", "BufDelOthers" } },
+
+	-- Nice icons
+	{ "nvim-tree/nvim-web-devicons",    lazy = true },
 
 	--------------------------------------
 	-- Colorschemes --
 	--------------------------------------
-	{
-		-- Theme inspired by Atom
-		"navarasu/onedark.nvim",
-		lazy = true,
-		event = "CursorHold",
-	},
 
-	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.cmd.colorscheme "tokyonight"
-		end
-	},
+	require("plugins.colorscheme"),
 
-	{
-		"nyoom-engineering/oxocarbon.nvim",
-		lazy = true,
-		event = "CursorHold",
-	},
-
-	{
-		"Mofiqul/vscode.nvim",
-		lazy = false,
-	},
-
-	{
-		"rose-pine/neovim",
-		name = "rose-pine",
-		priority = 1000,
-		config = function()
-			require("rose-pine").setup({
-				variant = "moon", -- auto, main, moon, or dawn (light)
-				dark_variant = "moon", -- main, moon, or dawn (light)
-				dim_inactive_windows = true,
-				extend_background_behind_borders = true,
-
-				enable = {
-					terminal = true,
-					legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
-					migrations = true, -- Handle deprecated options automatically
-				},
-
-				styles = {
-					bold = true,
-					italic = true,
-					transparency = false,
-				},
-
-				groups = {
-					border = "muted",
-					link = "iris",
-					panel = "surface",
-
-					error = "love",
-					hint = "iris",
-					info = "foam",
-					note = "pine",
-					todo = "rose",
-					warn = "gold",
-
-					git_add = "foam",
-					git_change = "rose",
-					git_delete = "love",
-					git_dirty = "rose",
-					git_ignore = "muted",
-					git_merge = "iris",
-					git_rename = "pine",
-					git_stage = "iris",
-					git_text = "rose",
-					git_untracked = "subtle",
-
-					h1 = "iris",
-					h2 = "foam",
-					h3 = "rose",
-					h4 = "gold",
-					h5 = "pine",
-					h6 = "foam",
-				},
-			})
-		end
-	},
 
 	--------------------------------------
 	-- Optional Features --
@@ -220,6 +146,8 @@ require("lazy").setup({
 					"html",
 					"angularls",
 					"cssls",
+					"bashls",
+					"clangd",
 				},
 			})
 
@@ -227,11 +155,12 @@ require("lazy").setup({
 				ensure_installed = {
 					"google-java-format",
 					"stylua",
-					-- "shellcheck",
-					-- "shfmt",
+					"shellcheck",
+					"shfmt",
 					"java-test",
 					"java-debug-adapter",
 					"markdown-toc",
+					"clang-format",
 				},
 			})
 
@@ -333,7 +262,21 @@ require("lazy").setup({
 		ft = "java",
 		dependencies = { "mfussenegger/nvim-jdtls" },
 		config = function()
-			require("simaxme-java").setup()
+			require("simaxme-java").setup {
+				rename = {
+					enable = true,
+					nvimtree = true,
+					write_and_close = false
+				},
+				snippets = {
+					enable = true
+				},
+				-- markers for detecting the package path (the package path should start *after* the marker)
+				root_markers = {
+					"main/java/",
+					"test/java/"
+				}
+			}
 		end,
 	},
 
@@ -363,32 +306,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
-	-- -- NOTE: if you want additional linters, try this plugin
-	-- -- Linters
-	-- {
-	--   "mfussenegger/nvim-lint",
-	--   event = "LspAttach",
-	--   config = function()
-	--     local lint = require("lint")
-	--
-	--     lint.linters_by_ft = {
-	--       -- javascript = { "eslint_d" },
-	--       -- typescript = { "eslint_d" },
-	--       -- javascriptreact = { "eslint_d" },
-	--       -- typescriptreact = { "eslint_d" },
-	--       java = { "checkstyle" },
-	--     }
-	--     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-	--
-	--     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-	--       group = lint_augroup,
-	--       callback = function()
-	--         lint.try_lint()
-	--       end,
-	--     })
-	--   end
-	-- },
 
 	--------------------------------------
 	-- Git --
@@ -458,22 +375,28 @@ require("lazy").setup({
 	},
 
 	--Terminal
-	{ "akinsho/toggleterm.nvim", version = "*", lazy = true,     cmd = "ToggleTerm", opts = {} },
+	{
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		lazy = true,
+		cmd = "ToggleTerm",
+		opts = {}
+	},
 
 	--Search & replace string
-	{ "nvim-pack/nvim-spectre",  lazy = true,   cmd = "Spectre", opts = {} },
+	{ "nvim-pack/nvim-spectre", lazy = true, cmd = "Spectre", opts = {} },
 
 	-- Add/remove/change surrounding {}, (), "" etc
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
-	},
+	-- {
+	-- 	"kylechui/nvim-surround",
+	-- 	version = "*", -- Use for stability; omit to use `main` branch for the latest features
+	-- 	event = "VeryLazy",
+	-- 	config = function()
+	-- 		require("nvim-surround").setup({
+	-- 			-- Configuration here, or leave empty to use defaults
+	-- 		})
+	-- 	end,
+	-- },
 
 	-- gcc to comment
 	{

@@ -31,7 +31,7 @@ local options = {
 	sidescrolloff = 8,                      -- scrolloff = 8, -- is one of my fav
 	spell = false,                          -- disable spell checking
 	undofile = true,                        -- enable persistent undo
-	undodir = "C:/Users/crme107/Documents/trash/",
+	undodir = "/home/catalin/Documents/nvim-undo/",
 }
 
 for k, v in pairs(options) do

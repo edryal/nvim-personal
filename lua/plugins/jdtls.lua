@@ -12,8 +12,9 @@ local root_markers = {
 }
 
 local features = {
-  codelens = false,
+  codelens = true,
   debugger = true,
+  springboot = true,
 }
 
 local function get_jdtls_paths()
@@ -23,16 +24,6 @@ local function get_jdtls_paths()
 
   local path = {}
 
-  local home = os.getenv("USERPROFILE")
-
-  -- Be consistent with the slashes
-  if home then
-    home = home:gsub('\\', '/')
-  end
-
-  -- path.workspace_dir = vim.fn.stdpath('cache') .. '/nvim-jdtls'
-  path.workspace_dir = home .. '/nvim-jdtls'
-
   local jdtls_install = require('mason-registry')
       .get_package('jdtls')
       :get_install_path()
@@ -40,14 +31,22 @@ local function get_jdtls_paths()
   path.lombok = jdtls_install .. '/lombok.jar'
   path.launcher_jar = vim.fn.glob(jdtls_install .. '/plugins/org.eclipse.equinox.launcher_*.jar')
 
-  if vim.fn.has('mac') == 1 then
-    path.platform_config = jdtls_install .. '/config_mac'
-  elseif vim.fn.has('unix') == 1 then
+  local home
+
+  if vim.fn.has('unix') == 1 then
+    home = os.getenv("HOME")
     path.platform_config = jdtls_install .. '/config_linux'
   elseif vim.fn.has('win32') == 1 then
+    home = os.getenv("USERPROFILE")
     path.platform_config = jdtls_install .. '/config_win'
+
+    -- Be consistent with the slashes
+    if home then
+      home = home:gsub('\\', '/')
+    end
   end
 
+  path.workspace_dir = home .. '/jdtls-workspaces'
   path.bundles = {}
 
   ---
@@ -79,25 +78,45 @@ local function get_jdtls_paths()
     vim.list_extend(path.bundles, java_test_bundle)
   end
 
+  -- Add springboot support
+  if features.springboot then
+    -- Do something here for springboot I guess
+  end
+
   ---
   -- Useful if you're starting jdtls with a Java version that's
   -- different from the one the project uses.
   ---
-  path.runtimes = {
-    -- Note: the field `name` must be a valid `ExecutionEnvironment`,
-    -- you can find the list here:
-    -- https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-    --
-    {
-      name = "JavaSE-21",
-      path = "C:/Program Files/Java/jdk-21/",
-    },
-    {
-      name = "JavaSE-17",
-      path = "C:/Program Files/Java/jdk-17/",
-      default = true,
-    },
-  }
+
+  if vim.fn.has('unix') == 1 then
+    path.runtimes = {
+      {
+        name = "JavaSE-21",
+        path = home .. "/.sdkman/candidates/java/21.0.7-tem",
+      },
+      {
+        name = "JavaSE-17",
+        path = home .. "/.sdkman/candidates/java/17.0.15-tem",
+        default = true,
+      },
+      {
+        name = "JavaSE-11",
+        path = home .. "/.sdkman/candidates/java/11.0.27-tem",
+      },
+    }
+  elseif vim.fn.has('win32') == 1 then
+    path.runtimes = {
+      {
+        name = "JavaSE-21",
+        path = "C:/Program Files/Java/jdk-21/",
+      },
+      {
+        name = "JavaSE-17",
+        path = "C:/Program Files/Java/jdk-17/",
+        default = true,
+      },
+    }
+  end
 
   cache_vars.paths = path
 
@@ -107,10 +126,10 @@ end
 local function enable_codelens(bufnr)
   pcall(vim.lsp.codelens.refresh)
 
-  vim.api.nvim_create_autocmd({'BufEnter', 'InsertLeave'}, {
+  vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave' }, {
     buffer = bufnr,
     group = java_cmds,
-    desc = 'refresh codelens',
+    desc = 'Refresh Codelens',
     callback = function()
       pcall(vim.lsp.codelens.refresh)
     end,
@@ -134,11 +153,12 @@ local function jdtls_on_attach(client, bufnr)
   end
 end
 
+-- Disable snippets because they're broken with cmp
 local basic_capabilities = {
   textDocument = {
     completion = {
       completionItem = {
-        snippetSupport = true
+        snippetSupport = false
       }
     }
   }
@@ -198,7 +218,7 @@ local function jdtls_setup()
         ls = {
           -- You can define the java home especially for the JDTLS server here. In this way it doesn't matter what is your JAVA_HOME environmental variable anymore.
           -- Convenient to solve version mismatches for some old projects
-          java = { home = "C:/Program Files/Java/jdk-21/" },
+          java = { home = path.runtimes[1].path },
           vmargs =
           "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx4G -Xms256m"
         }
@@ -213,12 +233,6 @@ local function jdtls_setup()
         filter = {
           "**/target",
         }
-      },
-      project = {
-        resourceFilters = {
-          ".git",
-          "node_modules",
-        },
       },
       maxConcurrentBuilds = 1,
       eclipse = {
@@ -251,7 +265,7 @@ local function jdtls_setup()
       format = {
         enabled = true,
         settings = {
-          profile = 'C:/Users/crme107/AppData/Local/nvim/format-styles/eclipse-java-format.xml',
+          profile = vim.fn.stdpath("config") .. '/format-styles/eclipse-java-format.xml',
         },
       }
     },

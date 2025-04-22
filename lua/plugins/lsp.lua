@@ -5,7 +5,7 @@ config.capabilities = vim.lsp.protocol.make_client_capabilities()
 
 -- Make sure these capabilities exist on all servers
 config.capabilities.textDocument.completion.completionItem = {
-  documentationFormat = { "plaintext" },
+  documentationFormat = { "markdown", "plaintext" },
   snippetSupport = true,
   preselectSupport = true,
   insertReplaceSupport = true,
@@ -37,6 +37,23 @@ config.defaults = function()
         },
       },
     },
+  }
+
+  lsp.clang.setup {
+    on_attach = config.on_attach,
+    capabilities = config.capabilities,
+    cmd = { "/home/catalin/.local/share/nvim/mason/bin/clangd" },
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+    root_dir = config.util.root_pattern(
+      '.clangd',
+      '.clang-tidy',
+      '.clang-format',
+      'compile_commands.json',
+      'compile_flags.txt',
+      'configure.ac',
+      '.git'
+    ),
+    single_file_support = true,
   }
 end
 
