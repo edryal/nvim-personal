@@ -65,12 +65,21 @@ local function get_jdtls_paths()
   ---
   -- Include java-test bundle if present
   ---
-  local java_test_path = require('mason-registry')
-      .get_package('java-test')
-      :get_install_path()
 
+  -- local java_test_path = require('mason-registry')
+  --     .get_package('java-test')
+  --     :get_install_path()
+
+  -- local java_test_bundle = vim.split(
+  --   vim.fn.glob(java_test_path .. '/extension/server/*.jar'),
+  --   '\n'
+  -- )
+
+  -- hardcoded path because mason doesn't have java-test 0.43.1 which fixes testing issues in nvim-jdtls
+  -- clone the repo from vscode-java-test, 'npm install' and then 'npm run build-plugin'
+  -- after that you'll see the server directory which contains all the jars (bundles) needed
   local java_test_bundle = vim.split(
-    vim.fn.glob(java_test_path .. '/extension/server/*.jar'),
+    vim.fn.glob(home .. '/vscode-java-test-0.43.1/server/*.jar'),
     '\n'
   )
 
