@@ -200,10 +200,11 @@ local function jdtls_setup()
     local capabilities = {}
     capabilities = require("utils.lsp").setup_capabilities(capabilities)
 
+    -- Disable JDTLS snippets
+    capabilities.textDocument.completion.completionItem.snippetSupport = false
+
     -- JDTLS capabilities
-    if cache_vars.capabilities == nil then
-        jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
-    end
+    jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
     local cmd = {
         'java',

@@ -16,7 +16,7 @@ return {
 				"html", "css", "json", "tsx",
 				"javascript", "typescript",
 				"gitignore", "markdown", "markdown_inline",
-				"go", "sql",
+				"go", "sql", "regex",
 			},
 			auto_install = false,
 			sync_install = false,
