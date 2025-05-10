@@ -2,7 +2,6 @@ return {
   'saghen/blink.cmp',
   dependencies = {
     'rafamadriz/friendly-snippets',
-    'folke/noice.nvim',
     'kristijanhusak/vim-dadbod-completion',
   },
   version = '1.*',
