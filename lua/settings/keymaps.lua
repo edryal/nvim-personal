@@ -5,6 +5,11 @@ local keymap = vim.api.nvim_set_keymap
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
+-- Fix the issue with Ctrl + Backspace not working
+keymap('i', '<C-BS>', '<C-W>', opts)
+-- Try this if the one above doesn't work
+-- keymap('i', '<C-H>', '<C-W>', opts)
+
 -- Don't start macro recronding on Alt + q
 keymap("n", "<A-q>", "", opts)
 
