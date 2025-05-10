@@ -16,6 +16,7 @@ return {
                     gitsigns = true,
                     nvim_lsp = true,
                     nvim_cmp = true,
+                    blink_cmp = true,
                     nvim_dap = true,
                     nvim_dap_ui = true,
                     nvim_tree = true,

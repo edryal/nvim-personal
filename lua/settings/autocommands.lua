@@ -1,4 +1,4 @@
---Hide status line and tabline while on Dashboard screen
+-- Hide status line and tabline while on Dashboard screen
 -- set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
 vim.api.nvim_create_autocmd({ "User" }, {
 	pattern = { "AlphaReady" },
@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd({ "User" }, {
 	end,
 })
 
---Close specific windows with q
+-- Close specific windows with q
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "qf",
 	"help",
@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
---Set conceallevel and wrap for markdown files
+-- Set conceallevel and wrap for markdown files
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "markdown", "md" },
 	callback = function()
@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
---Don't autostart new comment line after a comment
+-- Don't autostart new comment line after a comment
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	callback = function()
 		vim.cmd("set formatoptions-=cro")
