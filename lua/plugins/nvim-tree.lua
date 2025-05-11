@@ -18,8 +18,21 @@ return {
                 group_empty = true,
                 highlight_modified = "name",
             },
+
+            -- ✗  unstaged
+            -- ✓  staged
+            --   unmerged
+            -- ➜  renamed
+            -- ★  untracked
+            --   deleted
+            -- ◌  ignored
             git = {
-                enable = false,
+                enable = true,
+                disable_for_dirs = {
+                    "build",
+                    "node_modules",
+                    "target",
+                },
             },
             update_focused_file = {
                 enable = false,
