@@ -73,7 +73,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "java",
       callback = function()
-        local dbxreference = require('lspconfig.util').find_git_ancestor(vim.loop.cwd())
+        local dbxreference = require('lspconfig.util').root_pattern(vim.loop.cwd())
         local java_path = "C:/Program Files/Java/"
         dap.configurations.java = {
           -- Custom & project specific configurations

@@ -19,6 +19,7 @@ return {
             { '<leader>j', group = '[J]ava', mode = "v" },
             { '<leader>w', group = '[W]indow' },
             { '<leader>C', group = '[C]ontainer' },
+            { '<leader>h', group = '[H]arpoon' },
             { '<leader>t', group = '[T]oggle' },
             { '<leader>n', group = '[N]otification' },
             { '<leader>o', group = '[O]pen' },
