@@ -17,7 +17,6 @@ return {
           elements = {
             "scopes",
             "breakpoints",
-            "repl",
           },
           size = 0.3,
           position = "left",

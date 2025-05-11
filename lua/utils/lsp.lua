@@ -33,6 +33,10 @@ config.setup_capabilities = function(custom_overrides)
     },
   }
 
+  if not vim.lsp.inlay_hint.is_enabled() then
+    vim.lsp.inlay_hint.enable(true)
+  end
+
   -- Apply any custom overrides passed by the caller
   -- This allows, for example, JDTLS to set snippetSupport = false
   if custom_overrides then
