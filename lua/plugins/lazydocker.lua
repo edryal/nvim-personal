@@ -1,15 +1,13 @@
 return {
     -- NOTE: LazyDocker app is required https://github.com/mgierada/lazydocker.nvim?tab=readme-ov-file#-installation
     "mgierada/lazydocker.nvim",
-    event = "VeryLazy",
     dependencies = { "akinsho/toggleterm.nvim" },
+    cmd = "Lazydocker",
     keys = {
-        { "<leader>Cd", function() require("lazydocker").open() end, desc = "Run LazyDocker" },
+        { "<leader>od", ":Lazydocker<cr>", desc = "LazyDocker", silent = true, noremap = true },
     },
-    config = function()
-        require("lazydocker").setup({
-            -- "single" | "double" | "shadow" | "curved"
-            border = "curved",
-        })
-    end
+    opts = {
+        -- "single" | "double" | "shadow" | "curved"
+        border = "curved",
+    },
 }

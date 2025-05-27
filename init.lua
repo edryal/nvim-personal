@@ -32,6 +32,10 @@ local opts = {
 	},
 }
 
+function Expand_Opts(desc)
+	return vim.tbl_extend("force", { noremap = true, silent = true }, { desc = desc })
+end
+
 require("settings.options")
 require("settings.keymaps")
 require("settings.autocommands")

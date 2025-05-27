@@ -1,41 +1,24 @@
 -- Here is the default configuration for all LSPs except JDTLS
 local config = {
-  on_attach = nil,
   capabilities = nil,
-  on_init = nil,
   setup_capabilities = nil,
-  setup_lsp_servers = nil,
+  attach_navic = nil,
 }
-
--- Currently there is no config.on_init or config.on_attach so
--- nil gets passed to the lsp server setup which uses the their defaults
--- you could also pass keymaps on_init if you want to make use of it
 
 config.setup_capabilities = function(custom_overrides)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-  -- Apply some completionItem capabilities
-  capabilities.textDocument.completion.completionItem = {
-    documentationFormat = { "markdown", "plaintext" },
-    snippetSupport = true,
-    preselectSupport = true,
-    insertReplaceSupport = true,
-    labelDetailsSupport = true,
-    deprecatedSupport = true,
-    commitCharactersSupport = true,
-    tagSupport = { valueSet = { 1 } },
-    resolveSupport = {
-      properties = {
-        "documentation",
-        "detail",
-        "additionalTextEdits",
+  capabilities.textDocument = {
+    documentSymbol = {
+      symbolKind = {
+        valueSet = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 },
       },
+      hierarchicalDocumentSymbolSupport = true,
     },
   }
 
-  if not vim.lsp.inlay_hint.is_enabled() then
-    vim.lsp.inlay_hint.enable(true)
-  end
+  local features = require('settings.features')
+  vim.lsp.inlay_hint.enable(features.inlay_hint)
 
   -- Apply any custom overrides passed by the caller
   -- This allows, for example, JDTLS to set snippetSupport = false
@@ -51,6 +34,17 @@ config.setup_capabilities = function(custom_overrides)
   end
 
   return capabilities
+end
+
+config.attach_navic = function(client, bufnr)
+  local has_navic, navic = pcall(require, "nvim-navic")
+
+  if not has_navic then
+    vim.notify("Navic not found, skipping navic integration.", vim.log.levels.WARN)
+    return nil
+  end
+
+  navic.attach(client, bufnr)
 end
 
 return config

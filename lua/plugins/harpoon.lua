@@ -1,20 +1,33 @@
 return {
     "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = {
+        "nvim-lua/plenary.nvim"
+    },
     event = "VeryLazy",
-    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-        local ui = require('harpoon.ui')
-        local mark = require('harpoon.mark')
+        local harpoon = require("harpoon")
+        harpoon:setup({
+            settings = {
+                save_on_toggle = true,
+                sync_on_ui_close = true,
+            },
+        })
 
-        local function map(mode, keybind, command, opts)
-            vim.keymap.set(mode, keybind, command, opts)
-        end
+        local extensions = require("harpoon.extensions")
+        harpoon:extend(extensions.builtins.highlight_current_file())
+        harpoon:extend(extensions.builtins.navigate_with_number());
 
-        map("n", "<TAB>", function() ui.toggle_quick_menu() end, { noremap = true, silent = true })
-        map("n", "<S-m>", function() mark.add_file() end, { noremap = true, silent = true })
+        local set = vim.keymap.set
+        set("n", "<leader>a", function() harpoon:list():add() end, Expand_Opts("Mark File"))
+        set("n", "<TAB>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, Expand_Opts("View Marks"))
 
-        map("n", "<leader>ha", function() ui.toggle_quick_menu() end, { desc = "View all marks", noremap = true })
-        map("n", "<leader>hm", function() mark.add_file() end, { desc = "Mark current file", noremap = true })
-        map("n", "<leader>hc", function() mark.clear_all() end, { desc = "Clear all marks", noremap = true })
+        set("n", "<C-h>", function() harpoon:list():select(1) end, Expand_Opts("Goto First Mark"))
+        set("n", "<C-j>", function() harpoon:list():select(2) end, Expand_Opts("Goto Second Mark"))
+        set("n", "<C-k>", function() harpoon:list():select(3) end, Expand_Opts("Goto Third Mark"))
+        set("n", "<C-l>", function() harpoon:list():select(4) end, Expand_Opts("Goto Forth Mark"))
+
+        set("n", "<C-A-P>", function() harpoon:list():prev() end, Expand_Opts("Goto Previous Mark"))
+        set("n", "<C-A-N>", function() harpoon:list():next() end, Expand_Opts("Goto Next Mark"))
     end,
 }

@@ -12,12 +12,6 @@ local root_markers = {
     -- 'build.gradle',
 }
 
-local features = {
-    codelens = true,
-    debugger = true,
-    springboot = true,
-}
-
 local function get_jdtls_paths()
     if cache_vars.paths then
         return cache_vars.paths
@@ -84,11 +78,6 @@ local function get_jdtls_paths()
         vim.list_extend(path.bundles, java_test_bundle)
     end
 
-    -- Add springboot support
-    if features.springboot then
-        -- Do something here for springboot I guess
-    end
-
     ---
     -- Useful if you're starting jdtls with a Java version that's
     -- different from the one the project uses.
@@ -131,7 +120,7 @@ end
 
 local function enable_codelens(bufnr)
     pcall(vim.lsp.codelens.refresh)
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave' }, {
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
         buffer = bufnr,
         group = java_cmds,
         desc = 'Refresh Codelens',
@@ -142,13 +131,20 @@ local function enable_codelens(bufnr)
 end
 
 local function enable_debugger(bufnr)
-    jdtls.setup_dap({ hotcodereplace = 'auto' })
+    jdtls.setup_dap()
     require('jdtls.dap').setup_dap_main_class_configs()
 end
 
 local function jdtls_on_attach(client, bufnr)
+    local features = require("settings.features")
     if features.codelens then enable_codelens(bufnr) end
-    if features.debugger then enable_debugger(bufnr) end
+    if features.java.debugger then enable_debugger(bufnr) end
+
+    if features.navic_context then
+        require("utils.lsp").attach_navic(client, bufnr)
+    else
+        vim.notify("Navic integration has been disabled", vim.log.levels.INFO)
+    end
 
     local test_opts = {
         config = {
@@ -159,31 +155,28 @@ local function jdtls_on_attach(client, bufnr)
         }
     }
 
-    local function map(mode, keybind, command, opts)
-        vim.keymap.set(mode, keybind, command, opts)
-    end
-
-    map("n", "<leader>jo", function() jdtls.organize_imports() end, { desc = "Organize Imports", noremap = true })
-    map("n", "<leader>ju", function() jdtls.update_project_config() end, { desc = "Refresh Project Config", noremap = true })
+    local set = vim.keymap.set
+    set("n", "<leader>jo", function() jdtls.organize_imports() end, Expand_Opts("Organize Imports"))
+    set("n", "<leader>ju", function() jdtls.update_project_config() end, Expand_Opts("Refresh Project Config"))
 
     -- Refactoring
-    map("n", "<leader>jev", function() jdtls.extract_variable() end, { desc = "Variable", noremap = true })
-    map("n", "<leader>jec", function() jdtls.extract_constant() end, { desc = "Constant", noremap = true })
-    map("n", "<leader>jem", function() jdtls.extract_method(true) end, { desc = "Method", noremap = true })
+    set("n", "<leader>jev", function() jdtls.extract_variable() end, Expand_Opts("Variable"))
+    set("n", "<leader>jec", function() jdtls.extract_constant() end, Expand_Opts("Constant"))
+    set("n", "<leader>jem", function() jdtls.extract_method({ visual = true }) end, Expand_Opts("Method"))
 
     -- Refactoring in Visual Mode
-    map("v", "<leader>jev", function() jdtls.extract_variable() end, { desc = "Variable", noremap = true })
-    map("v", "<leader>jec", function() jdtls.extract_constant() end, { desc = "Constant", noremap = true })
-    map("v", "<leader>jem", function() jdtls.extract_method(true) end, { desc = "Method", noremap = true })
+    set("v", "<leader>jev", function() jdtls.extract_variable() end, Expand_Opts("Variable"))
+    set("v", "<leader>jec", function() jdtls.extract_constant() end, Expand_Opts("Constant"))
+    set("v", "<leader>jem", function() jdtls.extract_method({ visual = true }) end, Expand_Opts("Method"))
 
     -- Commands
-    map("n", "<leader>jr", "<cmd>JdtSetRuntime<cr>", { desc = "Set Java Runtime", noremap = true })
-    map("n", "<leader>jc", "<cmd>JdtCompile<cr>", { desc = "Compile Project", noremap = true })
+    set("n", "<leader>jr", "<cmd>JdtSetRuntime<cr>", Expand_Opts("Set Java Runtime"))
+    set("n", "<leader>jc", "<cmd>JdtCompile<cr>", Expand_Opts("Compile Project"))
 
     -- Testing
-    map("n", "<leader>jtp", function() jdtls.pick_test(test_opts) end, { desc = "Pick Method", noremap = true })
-    map("n", "<leader>jtm", function() jdtls.test_nearest_method(test_opts) end, { desc = "Method", noremap = true })
-    map("n", "<leader>jtc", function() jdtls.test_class(test_opts) end, { desc = "Class", noremap = true })
+    set("n", "<leader>jtp", function() jdtls.pick_test(test_opts) end, Expand_Opts("Pick Method"))
+    set("n", "<leader>jtm", function() jdtls.test_nearest_method(test_opts) end, Expand_Opts("Method"))
+    set("n", "<leader>jtc", function() jdtls.test_class(test_opts) end, Expand_Opts("Class"))
 end
 
 local function jdtls_setup()
@@ -197,7 +190,18 @@ local function jdtls_setup()
     local project_root_dir = jdtls.setup.find_root(root_markers)
 
     -- LSP capabilities to override
-    local capabilities = {}
+    local capabilities = {
+        workspace = {
+            configuration = true
+        },
+        textDocument = {
+            completion = {
+                completionItem = {
+                    snippetSupport = true
+                }
+            }
+        }
+    }
     capabilities = require("utils.lsp").setup_capabilities(capabilities)
 
     -- Disable JDTLS snippets

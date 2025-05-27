@@ -7,10 +7,9 @@ return {
     event = { "BufEnter" },
     config = function()
         vim.opt.laststatus = 3
+        local components = require("utils.sttusline")
 
         require("sttusline").setup {
-            on_attach = function(create_update_group) end,
-
             statusline_color = "StatusLine",
             disabled = {
                 filetypes = {
@@ -25,8 +24,11 @@ return {
                 "filename",
                 "git-branch",
                 "git-diff",
+                components.navic,
                 "%=",
+                components.nvim_dap,
                 "diagnostics",
+                -- components.copilot,
                 "lsps-formatters",
                 "indent",
                 "pos-cursor",

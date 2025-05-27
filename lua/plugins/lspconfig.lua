@@ -10,7 +10,8 @@ return {
         "mason-org/mason-lspconfig.nvim",
         dependencies = {
             "neovim/nvim-lspconfig",
-            "mason-org/mason.nvim"
+            "mason-org/mason.nvim",
+            "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
         },
         config = function()
             require('mason-lspconfig').setup({
@@ -27,7 +28,7 @@ return {
                     "bashls",
                     "clangd",
                     "gopls",
-                    -- "jdtls",
+                    "jdtls",
                 }
             })
 
