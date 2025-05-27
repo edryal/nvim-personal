@@ -1,5 +1,3 @@
-local features = require('settings.features')
-
 return {
   'saghen/blink.cmp',
   dependencies = {
@@ -16,17 +14,10 @@ return {
         },
       },
     },
-    'fang2hou/blink-copilot',
   },
   event = 'InsertEnter',
   version = '1.*',
   opts = function()
-    local default_sources = { 'lsp', 'path', 'snippets', 'buffer' }
-
-    if features.copilot then
-      table.insert(default_sources, 1, 'copilot')
-    end
-
     return {
       keymap = {
         preset = 'enter'
@@ -57,19 +48,13 @@ return {
         nerd_font_variant = 'mono'
       },
       sources = {
-        default = default_sources,
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
           sql = { 'snippets', 'dadbod', 'buffer' },
           lua = { 'lazydev', inherit_defaults = true },
         },
         providers = {
           lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
-          copilot = features.copilot and {
-            name = "copilot",
-            module = "blink-copilot",
-            score_offset = 100,
-            async = true,
-          } or nil,
         },
       },
       fuzzy = { implementation = "prefer_rust_with_warning" }

@@ -1,7 +1,6 @@
 local M = {
     navic = {},
     nvim_dap = {},
-    copilot = {},
 }
 
 local function format_dap_status(status)
@@ -64,36 +63,5 @@ if has_navic then
         end
     }
 end
-
--- local has_copilot = pcall(require, "copilot")
--- if has_copilot then
---     local has_status, status = pcall(require, "copilot.status")
---     M.copilot = {
---         name = "copilot_status",
---         event = { "CursorHold", "BufEnter" },
---         update = function()
---             local icon_working = ""
---             local icon_offline = ""
---             local current_icon = icon_offline
---
---             if vim.fn.exists(":Copilot") == 0 then
---                 return current_icon
---             end
---
---             if has_status() and type(status) == "string" then
---                 if status:match("*Online*") and
---                     status:match("*Enabled*") then
---                     current_icon = icon_working
---                 elseif status:match("copilot is offline") then
---                     current_icon = icon_offline
---                 end
---             end
---             return current_icon
---         end,
---         condition = function()
---             return has_copilot
---         end
---     }
--- end
 
 return M

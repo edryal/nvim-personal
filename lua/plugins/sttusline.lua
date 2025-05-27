@@ -28,7 +28,6 @@ return {
                 "%=",
                 components.nvim_dap,
                 "diagnostics",
-                -- components.copilot,
                 "lsps-formatters",
                 "indent",
                 "pos-cursor",

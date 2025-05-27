@@ -1,5 +1,4 @@
 local features = {
-    copilot = true,
     inlay_hint = false,
     navic_context = true,
     go = {
