@@ -1,3 +1,5 @@
+local colors = require("utils.colors")
+
 return {
     {
         "olimorris/onedarkpro.nvim",
@@ -13,18 +15,18 @@ return {
                 conditionals = "italic",
             },
             colors = {
-                onedark = { bg = "#1a1b26", },
+                onedark = { bg = colors.black },
             },
             highlights = {
-                NvimTreeRootFolder = { fg = "#d95f73", style = "bold" },
-                NvimTreeFolderIcon = { fg = "#d95f73" },
-                NvimTreeOpenedFolderName = { fg = "#d95f73" },
+                NvimTreeRootFolder = { fg = colors.red, style = "bold" },
+                NvimTreeFolderIcon = { fg = colors.red },
+                NvimTreeOpenedFolderName = { fg = colors.red },
 
                 -- Java
-                ["@attribute"] = { fg = "#e5c07b", italic = true },
-                ["@lsp.type.modifier.java"] = { fg = "#c678dd" },
-                ["@parameter"] = { fg = "#d19a66" },
-                ["@variable.builtin"] = { fg = "#c678dd", italic = true },
+                ["@attribute"] = { fg = colors.yellow, italic = true },
+                ["@lsp.type.modifier.java"] = { fg = colors.purple },
+                ["@parameter"] = { fg = colors.orange },
+                ["@variable.builtin"] = { fg = colors.purple, italic = true },
             },
             options = {
                 cursorline = false,

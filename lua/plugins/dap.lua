@@ -43,25 +43,11 @@ return {
         },
         {
           elements = {
-            "console",
+            "repl",
           },
           size = 0.3,
           position = "bottom",
         }
-      },
-      controls = {
-        enabled = true,
-        element = "console",
-        icons = {
-          pause = "",
-          play = "",
-          step_into = "",
-          step_over = "",
-          step_out = "",
-          step_back = "",
-          run_last = "",
-          terminate = "",
-        },
       },
     }
 
@@ -80,11 +66,12 @@ return {
       dapui.close()
     end
 
-    vim.api.nvim_set_hl(0, "DapSignRed", { fg = "#e06c75" })
-    vim.api.nvim_set_hl(0, "DapSignGreen", { fg = "#9ece6a" })
-    vim.api.nvim_set_hl(0, "DapSignBlue", { fg = "#3d59a1" })
-    vim.api.nvim_set_hl(0, "DapSignOrange", { fg = "#f09000" })
-    vim.api.nvim_set_hl(0, "DapSignYellow", { fg = "#FFFF00" })
+    local colors = require("utils.colors")
+    vim.api.nvim_set_hl(0, "DapSignRed", { fg = colors.red })
+    vim.api.nvim_set_hl(0, "DapSignGreen", { fg = colors.green })
+    vim.api.nvim_set_hl(0, "DapSignBlue", { fg = colors.blue })
+    vim.api.nvim_set_hl(0, "DapSignOrange", { fg = colors.orange })
+    vim.api.nvim_set_hl(0, "DapSignYellow", { fg = colors.yellow })
 
     vim.fn.sign_define('DapBreakpoint',
       { text = '', texthl = 'DapSignRed', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
@@ -121,7 +108,7 @@ return {
           {
             type = "java",
             request = "launch",
-            console = 'integratedTerminal',
+            console = 'internalConsole',
             shortenCommandLine = 'argfile',
             name = "Launch Application",
             vmArgs = "-Xmx2g "
@@ -129,7 +116,7 @@ return {
           {
             type = "java",
             request = "attach",
-            console = 'integratedTerminal',
+            console = 'internalConsole',
             shortenCommandLine = 'argfile',
             name = "Debug (Attach :: 5005)",
             hostName = "127.0.0.1",

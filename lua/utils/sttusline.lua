@@ -1,6 +1,6 @@
 local M = {
     navic = {},
-    nvim_dap = {},
+    dap = {},
 }
 
 local function format_dap_status(status)
@@ -37,7 +37,7 @@ end
 
 local has_dap, dap = pcall(require, "dap")
 if has_dap then
-    M.nvim_dap = {
+    M.dap = {
         name = "nvim-dap",
         event = { "CursorHold", "CursorMoved", "BufEnter" },
         update = function()
@@ -63,5 +63,18 @@ if has_navic then
         end
     }
 end
+
+local colors = require("utils.colors")
+M.macro_recording = {
+    name = "macro_recording",
+    event = { "RecordingEnter", "RecordingLeave" },
+    colors = { fg = colors.red },
+    update = function()
+        return "Recording @" .. vim.fn.reg_recording()
+    end,
+    condition = function()
+        return vim.fn.reg_recording() ~= ""
+    end
+}
 
 return M

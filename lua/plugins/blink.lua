@@ -29,6 +29,7 @@ return {
         enabled = true,
         window = {
           show_documentation = false,
+          border = "rounded",
         },
       },
       cmdline = {
@@ -50,7 +51,6 @@ return {
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
-          sql = { 'snippets', 'dadbod', 'buffer' },
           lua = { 'lazydev', inherit_defaults = true },
         },
         providers = {

@@ -49,7 +49,6 @@ map("n", "<leader>tl", ':lua _G.toggle_diagnostic_display()<cr>', Expand_Opts("D
 map("n", "<leader>bo", ':BufDelOthers<cr>', Expand_Opts("Close All Other Buffers"))
 map("n", "<leader>bd", ':BufDel<cr>', Expand_Opts("Close Current Buffer"))
 
-
 -- [[ LSP Basics ]]
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
@@ -73,9 +72,5 @@ vim.api.nvim_create_autocmd('LspAttach', {
     bufmap("n", "<leader>cde", ":Trouble diagnostics filter.severity=vim.diagnostic.severity.ERROR<cr>", "All Errors")
     bufmap("n", "<leader>cdb", ":Trouble diagnostics toggle filter.buf=0 focus = true<cr>", "In Buffer")
     bufmap("n", "<leader>cdw", ":Trouble diagnostics toggle focus = true<cr>", "In Workspace")
-
-    bufmap('n', '<leader>wwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', "Add Folder")
-    bufmap('n', '<leader>wwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', "Remove Folder")
-    bufmap('n', '<leader>wwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', "List Folders")
   end
 })

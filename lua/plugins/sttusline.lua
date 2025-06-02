@@ -26,10 +26,10 @@ return {
                 "git-diff",
                 components.navic,
                 "%=",
-                components.nvim_dap,
+                components.dap,
                 "diagnostics",
+                components.macro_recording,
                 "lsps-formatters",
-                "indent",
                 "pos-cursor",
             },
         }

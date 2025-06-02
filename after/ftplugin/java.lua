@@ -137,8 +137,14 @@ end
 
 local function jdtls_on_attach(client, bufnr)
     local features = require("settings.features")
-    if features.codelens then enable_codelens(bufnr) end
-    if features.java.debugger then enable_debugger(bufnr) end
+
+    if features.codelens then
+        enable_codelens(bufnr)
+    end
+
+    if features.java.debugger then
+        enable_debugger(bufnr)
+    end
 
     if features.navic_context then
         require("utils.lsp").attach_navic(client, bufnr)
@@ -192,7 +198,16 @@ local function jdtls_setup()
     -- LSP capabilities to override
     local capabilities = {
         workspace = {
-            configuration = true
+            configuration = true,
+            fileOperations = {
+                dynamicRegistration = true,
+                didCreate = true,
+                willCreate = true,
+                didRename = true,
+                willRename = true,
+                didDelete = true,
+                willDelete = true,
+            },
         },
         textDocument = {
             completion = {
@@ -295,7 +310,7 @@ local function jdtls_setup()
             }
         },
         signatureHelp = {
-            enabled = true,
+            enabled = false,
         },
         completion = {
             favoriteStaticMembers = {

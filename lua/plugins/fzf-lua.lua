@@ -12,9 +12,6 @@ return {
                     scrollbar = "float",
                 },
             },
-            grep = {
-                formatter = { "path.filename_first" },
-            },
             fzf_colors = true,
             keymap = {
                 fzf = {
@@ -27,6 +24,7 @@ return {
                     ["ctrl-e"] = "end-of-line",
                     ["ctrl-f"] = "preview-page-down",
                     ["ctrl-b"] = "preview-page-up",
+                    ["ctrl-q"] = "select-all+accept",
                 },
             },
             defaults = {
@@ -41,13 +39,17 @@ return {
         -- Find
         map("n", "<leader>ff", ':FzfLua files<cr>', Expand_Opts("Files"))
         map("n", "<leader>fg", ':FzfLua git_files<cr>', Expand_Opts("Git Files"))
-        -- map("n", "<leader>fr", ':FzfLua oldfiles <cr>', Expand_Opts("Recent Files"))
+        map("n", "<leader>fq", ':FzfLua quickfix<cr>', Expand_Opts("Quickfix List"))
+        map("n", "<leader>fl", ':FzfLua <cr>', Expand_Opts("Last Files"))
 
         local set = vim.keymap.set
+        set("n", "<leader>fl", function() FzfLua.files({ resume = true }) end,
+            Expand_Opts("Last Files"))
         set("n", "<leader>fc", function() FzfLua.files({ cwd = vim.fn.stdpath("config") }) end,
             Expand_Opts("Config Files"))
         set("n", "<leader>fr", function() FzfLua.oldfiles({ cwd = vim.fn.getcwd() }) end,
             Expand_Opts("Recent Files"))
+
 
         -- Search
         map("n", "<leader>sl", ':FzfLua live_grep_native<cr>', Expand_Opts("Live Grep"))
