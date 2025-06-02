@@ -1,7 +1,6 @@
-local java_cmds = vim.api.nvim_create_augroup('java_cmds', { clear = true })
-local cache_vars = {}
-
-local jdtls = require('jdtls')
+if vim.bo.filetype ~= 'java' then
+    return
+end
 
 local root_markers = {
     '.git',
@@ -11,6 +10,20 @@ local root_markers = {
     -- 'pom.xml',
     -- 'build.gradle',
 }
+
+local jdtls = require('jdtls')
+
+local function is_java_project()
+    return jdtls.setup.find_root(root_markers) ~= nil
+end
+
+if not is_java_project() then
+    vim.notify("Not in a Java project, skipping JDTLS setup", vim.log.levels.DEBUG)
+    return
+end
+
+local cache_vars = {}
+local java_cmds = vim.api.nvim_create_augroup('java_cmds', { clear = true })
 
 local function get_jdtls_paths()
     if cache_vars.paths then
@@ -212,15 +225,12 @@ local function jdtls_setup()
         textDocument = {
             completion = {
                 completionItem = {
-                    snippetSupport = true
-                }
-            }
-        }
+                    snippetSupport = false,
+                },
+            },
+        },
     }
     capabilities = require("utils.lsp").setup_capabilities(capabilities)
-
-    -- Disable JDTLS snippets
-    capabilities.textDocument.completion.completionItem.snippetSupport = false
 
     -- JDTLS capabilities
     jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
@@ -260,7 +270,7 @@ local function jdtls_setup()
                     -- Convenient to solve version mismatches for some old projects
                     java = { home = path.runtimes[1].path },
                     vmargs =
-                    "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx4G -Xms256m"
+                    "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx6G -Xms256m"
                 }
             },
             server = {

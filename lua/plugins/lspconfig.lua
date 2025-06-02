@@ -26,7 +26,6 @@ return {
                     "angularls",
                     "cssls",
                     "bashls",
-                    "clangd",
                     "gopls",
                     "jdtls",
                 }
@@ -42,7 +41,6 @@ return {
                 "angularls",
                 "cssls",
                 "bashls",
-                "clangd",
                 "gopls",
             })
         end
@@ -62,7 +60,6 @@ return {
                 "java-test",
                 "java-debug-adapter",
                 "markdown-toc",
-                "clang-format",
             },
         }
     },
