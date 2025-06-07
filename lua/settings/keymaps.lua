@@ -1,13 +1,12 @@
 local opts = { noremap = true, silent = true }
 local map = vim.api.nvim_set_keymap
-local set = vim.keymap.set
 
 -- [[ Stay in Visual ]]
 map("v", "<", "<gv", opts)
 map("v", ">", ">gv", opts)
 
 -- Fix the issue with Ctrl + Backspace not working
-map('i', '<C-BS>', '<C-W>', opts)
+map("i", "<C-BS>", "<C-W>", opts)
 -- Try this if the one above doesn't work
 -- map('i', '<C-H>', '<C-W>', opts)
 
@@ -28,41 +27,35 @@ map("n", "<leader>wh", ":split<cr>", Expand_Opts("Split Horizontal"))
 map("n", "<leader>ct", ":TodoFzfLua<cr>", Expand_Opts("TODOs"))
 
 -- [[ Toggles ]]
-local function toggle_diagnostic_display()
-  require("lsp_lines").toggle()
-  local virtual_text = not vim.diagnostic.config().virtual_text
-  vim.diagnostic.config({ virtual_text = virtual_text })
-end
-
-set("n", "<leader>tl", toggle_diagnostic_display, Expand_Opts("Diagnostics Style"))
-map("n", "<leader>td", ':lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<cr>', Expand_Opts("Diagnostics"))
+map("n", "<leader>td", ":lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<cr>", Expand_Opts("Diagnostics"))
 
 -- [[ Buffers ]]
-map("n", "<leader>bo", ':BufDelOthers<cr>', Expand_Opts("Close All Other Buffers"))
-map("n", "<leader>bd", ':BufDel<cr>', Expand_Opts("Close Current Buffer"))
+map("n", "<leader>bo", ":BufDelOthers<cr>", Expand_Opts("Close All Other Buffers"))
+map("n", "<leader>bd", ":BufDel<cr>", Expand_Opts("Close Current Buffer"))
 
 -- [[ LSP Basics ]]
-vim.api.nvim_create_autocmd('LspAttach', {
-  desc = 'LSP actions',
+vim.api.nvim_create_autocmd("LspAttach", {
+  desc = "LSP actions",
   callback = function()
     local bufmap = function(mode, lhs, rhs, desc)
       local lspopts = { desc = desc, noremap = true, silent = true, buffer = true }
-      set(mode, lhs, rhs, lspopts)
+      vim.keymap.set(mode, lhs, rhs, lspopts)
     end
 
-    bufmap('n', 'L', ":lua vim.lsp.buf.signature_help()<cr>", "Show Signature Help")
-    bufmap('n', 'K', ":lua vim.lsp.buf.hover()<cr>", "Show Hover information")
-    bufmap('n', 'gR', ":lua vim.lsp.buf.rename()<cr>", "Rename all references")
-    bufmap('n', 'gl', ":lua vim.diagnostic.open_float()<cr>", "Floating Diagnostics")
-    bufmap('n', 'gp', ":lua vim.diagnostic.goto_prev()<cr>", "Go To Previous Diagnostic")
-    bufmap('n', 'gn', ":lua vim.diagnostic.goto_next()<cr>", "Go To Next Diagnostic")
+    bufmap("n", "L", ":lua vim.lsp.buf.signature_help()<cr>", "Show Signature Help")
+    bufmap("n", "K", ":lua vim.lsp.buf.hover()<cr>", "Show Hover information")
+    bufmap("n", "gR", ":lua vim.lsp.buf.rename()<cr>", "Rename all references")
+    bufmap("n", "gl", ":lua vim.diagnostic.open_float()<cr>", "Floating Diagnostics")
+    bufmap("n", "gp", ":lua vim.diagnostic.goto_prev()<cr>", "Go To Previous Diagnostic")
+    bufmap("n", "gn", ":lua vim.diagnostic.goto_next()<cr>", "Go To Next Diagnostic")
 
     bufmap("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<cr>", "Code Action")
     bufmap("v", "<leader>ca", ":lua vim.lsp.buf.code_action()<cr>", "Code Action")
-    bufmap("n", "<leader>cf", ":lua vim.lsp.buf.format({async = true})<cr>", "Format")
+    bufmap("n", "<leader>cf", ":lua require('conform').format({ async = true, lsp_fallback = true })<cr>", "Format")
+    -- bufmap("n", "<leader>cf", ":lua vim.lsp.buf.format({async = true})<cr>", "Format")
 
     bufmap("n", "<leader>cde", ":Trouble diagnostics filter.severity=vim.diagnostic.severity.ERROR<cr>", "All Errors")
     bufmap("n", "<leader>cdb", ":Trouble diagnostics toggle filter.buf=0 focus = true<cr>", "In Buffer")
     bufmap("n", "<leader>cdw", ":Trouble diagnostics toggle focus = true<cr>", "In Workspace")
-  end
+  end,
 })

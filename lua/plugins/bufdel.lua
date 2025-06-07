@@ -1,4 +1,4 @@
 return {
-    'ojroques/nvim-bufdel',
-    cmd = { "BufDel", "BufDelOthers" }
+  "ojroques/nvim-bufdel",
+  cmd = { "BufDel", "BufDelOthers" },
 }

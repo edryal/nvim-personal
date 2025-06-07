@@ -1,14 +1,22 @@
 local features = {
-    inlay_hint = false,
-    navic_context = true,
-    go = {
-        debugger = true
-    },
-    java = {
-        codelens = true,
-        debugger = true,
-        springboot = true,
-    }
+  inlay_hint = false,
+  navic = {
+    enabled = true,
+    limit = 5,
+  },
+  web = {
+    enabled = true,
+  },
+  go = {
+    enabled = true,
+    debugger = true,
+  },
+  java = {
+    enabled = true,
+    codelens = true,
+    debugger = true,
+    springboot = true,
+  },
 }
 
 return features

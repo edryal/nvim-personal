@@ -1,11 +1,6 @@
--- Here is the default configuration for all LSPs except JDTLS
-local config = {
-  capabilities = nil,
-  setup_capabilities = nil,
-  attach_navic = nil,
-}
+local M = {}
 
-config.setup_capabilities = function(custom_overrides)
+M.setup_capabilities = function(custom_overrides)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
 
   capabilities.textDocument = {
@@ -17,18 +12,18 @@ config.setup_capabilities = function(custom_overrides)
     },
   }
 
-  local features = require('settings.features')
+  local features = require("settings.features")
   vim.lsp.inlay_hint.enable(features.inlay_hint)
 
   -- Apply any custom overrides passed by the caller
   -- This allows, for example, JDTLS to set snippetSupport = false
   if custom_overrides then
-    capabilities = vim.tbl_deep_extend('force', capabilities, custom_overrides)
+    capabilities = vim.tbl_deep_extend("force", capabilities, custom_overrides)
   end
 
   -- Integrate blink.cmp capabilities
-  if pcall(require, 'blink.cmp') then
-    capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
+  if pcall(require, "blink.cmp") then
+    capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
   else
     vim.notify("blink.cmp not found, skipping blink capabilities.", vim.log.levels.WARN)
   end
@@ -36,7 +31,7 @@ config.setup_capabilities = function(custom_overrides)
   return capabilities
 end
 
-config.attach_navic = function(client, bufnr)
+M.attach_navic = function(client, bufnr)
   local has_navic, navic = pcall(require, "nvim-navic")
 
   if not has_navic then
@@ -47,4 +42,4 @@ config.attach_navic = function(client, bufnr)
   navic.attach(client, bufnr)
 end
 
-return config
+return M

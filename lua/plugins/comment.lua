@@ -1,5 +1,5 @@
 return {
-    "numToStr/Comment.nvim",
-    event = "CursorHold",
-    opts = {},
+  "numToStr/Comment.nvim",
+  event = "CursorHold",
+  opts = {},
 }

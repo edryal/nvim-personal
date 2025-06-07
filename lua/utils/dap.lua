@@ -1,20 +1,20 @@
 local M = {}
 
 M.create_debug_config = function()
-    return {
-      layouts = {
-        {
-          elements = { "scopes", "breakpoints" },
-          size = 0.3,
-          position = "left",
-        },
-        {
-          elements = { "repl" },
-          size = 0.3,
-          position = "bottom",
-        }
-      }
-    }
+  return {
+    layouts = {
+      {
+        elements = { "scopes", "breakpoints" },
+        size = 0.3,
+        position = "left",
+      },
+      {
+        elements = { "repl" },
+        size = 0.3,
+        position = "bottom",
+      },
+    },
+  }
 end
 
 M.setup_dap_listeners = function(dap, dapui)
@@ -40,16 +40,11 @@ M.setup_dap_breakpoint_colors = function()
   vim.api.nvim_set_hl(0, "DapSignOrange", { fg = colors.orange })
   vim.api.nvim_set_hl(0, "DapSignYellow", { fg = colors.yellow })
 
-  vim.fn.sign_define('DapBreakpoint',
-    { text = '', texthl = 'DapSignRed', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-  vim.fn.sign_define('DapStopped',
-    { text = '', texthl = 'DapSignGreen', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-  vim.fn.sign_define('DapBreakpointCondition',
-    { text = '', texthl = 'DapSignBlue', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-  vim.fn.sign_define('DapBreakpointRejected',
-    { text = '', texthl = 'DapSignOrange', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-  vim.fn.sign_define('DapLogPoint',
-    { text = '', texthl = 'DapSignYellow', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+  vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapSignRed", linehl = "DapBreakpoint", numhl = "DapBreakpoint" })
+  vim.fn.sign_define("DapStopped", { text = "", texthl = "DapSignGreen", linehl = "DapBreakpoint", numhl = "DapBreakpoint" })
+  vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "DapSignBlue", linehl = "DapBreakpoint", numhl = "DapBreakpoint" })
+  vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DapSignOrange", linehl = "DapBreakpoint", numhl = "DapBreakpoint" })
+  vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapSignYellow", linehl = "DapBreakpoint", numhl = "DapBreakpoint" })
 end
 
 M.setup_dap_keymaps = function()
@@ -69,7 +64,7 @@ M.setup_go_debugger = function()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "go",
     callback = function()
-      require('dap-go').setup {
+      require("dap-go").setup({
         delve = {
           path = "dlv",
           initialize_timeout_sec = 20,
@@ -82,7 +77,7 @@ M.setup_go_debugger = function()
         tests = {
           verbose = false,
         },
-      }
+      })
     end,
   })
 end
@@ -95,16 +90,16 @@ M.setup_java_debugger = function(dap)
         {
           type = "java",
           request = "launch",
-          console = 'internalConsole',
-          shortenCommandLine = 'argfile',
+          console = "internalConsole",
+          shortenCommandLine = "argfile",
           name = "Launch Application",
-          vmArgs = "-Xmx2g "
+          vmArgs = "-Xmx2g ",
         },
         {
           type = "java",
           request = "attach",
-          console = 'internalConsole',
-          shortenCommandLine = 'argfile',
+          console = "internalConsole",
+          shortenCommandLine = "argfile",
           name = "Debug (Attach :: 5005)",
           hostName = "127.0.0.1",
           port = 5005,

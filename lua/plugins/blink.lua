@@ -1,7 +1,7 @@
 return {
-  'saghen/blink.cmp',
+  "saghen/blink.cmp",
   dependencies = {
-    'rafamadriz/friendly-snippets',
+    "rafamadriz/friendly-snippets",
     {
       "folke/lazydev.nvim",
       ft = "lua",
@@ -9,21 +9,21 @@ return {
         library = {
           {
             path = "${3rd}/luv/library",
-            words = { "vim%.uv" }
+            words = { "vim%.uv" },
           },
         },
       },
     },
   },
-  event = 'InsertEnter',
-  version = '1.*',
+  event = "InsertEnter",
+  version = "1.*",
   opts = function()
     return {
       keymap = {
-        preset = 'enter'
+        preset = "enter",
       },
       completion = {
-        documentation = { auto_show = false }
+        documentation = { auto_show = false },
       },
       signature = {
         enabled = true,
@@ -34,31 +34,31 @@ return {
       },
       cmdline = {
         keymap = {
-          preset = 'cmdline'
+          preset = "cmdline",
         },
         completion = {
           menu = {
-            auto_show = true
+            auto_show = true,
           },
           ghost_text = {
-            enabled = true
-          }
+            enabled = true,
+          },
         },
       },
       appearance = {
-        nerd_font_variant = 'mono'
+        nerd_font_variant = "mono",
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { "lsp", "path", "snippets", "buffer" },
         per_filetype = {
-          lua = { 'lazydev', inherit_defaults = true },
+          lua = { "lazydev", inherit_defaults = true },
         },
         providers = {
           lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
         },
       },
-      fuzzy = { implementation = "prefer_rust_with_warning" }
+      fuzzy = { implementation = "prefer_rust_with_warning" },
     }
   end,
-  opts_extend = { "sources.default" }
+  opts_extend = { "sources.default" },
 }
