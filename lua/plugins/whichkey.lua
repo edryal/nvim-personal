@@ -3,29 +3,28 @@ return {
     event = 'VimEnter',
     opts = {
         spec = {
-            { '<leader>c',  group = '[C]ode',         mode = "n" },
-            { '<leader>c',  group = '[C]ode',         mode = "v" },
-            { '<leader>cd', group = '[D]iagnostics',  mode = "n" },
-            { '<leader>d',  group = '[D]ebug',        mode = "n" },
-            { '<leader>D',  group = '[D]atabase',     mode = "n" },
-            { '<leader>s',  group = '[S]earch',       mode = "n" },
-            { '<leader>s',  group = '[S]earch',       mode = "v" },
-            { '<leader>g',  group = '[G]it',          mode = "n" },
-            { '<leader>g',  group = '[G]it',          mode = "v" },
-            { '<leader>gc', group = '[C]onflict',     mode = "n" },
-            { '<leader>f',  group = '[F]ind',         mode = "n" },
-            { '<leader>j',  group = '[J]ava',         mode = "n" },
-            { '<leader>j',  group = '[J]ava',         mode = "v" },
-            { '<leader>jt', group = '[T]est',         mode = "n" },
-            { '<leader>je', group = '[E]xtract',      mode = "n" },
-            { '<leader>w',  group = '[W]indow',       mode = "n" },
-            { '<leader>ww', group = '[W]orkspace',    mode = "n" },
-            { '<leader>C',  group = '[C]ontainer',    mode = "n" },
-            { '<leader>h',  group = '[H]arpoon',      mode = "n" },
-            { '<leader>t',  group = '[T]oggle',       mode = "n" },
-            { '<leader>n',  group = '[N]otification', mode = "n" },
-            { '<leader>o',  group = '[O]pen',         mode = "n" },
-            { '<leader>b',  group = '[B]uffers',      mode = "n" },
-        },
+            {
+                mode = { "n" },
+                { '<leader>d',  group = 'Debug' },
+                { '<leader>f',  group = 'Find' },
+                { '<leader>w',  group = 'Window' },
+                { '<leader>t',  group = 'Toggle' },
+                { '<leader>n',  group = 'Notification' },
+                { '<leader>o',  group = 'Open' },
+                { '<leader>b',  group = 'Buffers' },
+
+                { '<leader>cd', group = 'Diagnostics' },
+                { '<leader>gc', group = 'Conflict' },
+                { '<leader>jt', group = 'Test' },
+                { '<leader>je', group = 'Extract' },
+            },
+            {
+                mode = { "n", "v" },
+                { '<leader>c', group = 'Code' },
+                { '<leader>j', group = 'Java' },
+                { '<leader>g', group = 'Git' },
+                { '<leader>s', group = 'Search' },
+            }
+        }
     }
 }

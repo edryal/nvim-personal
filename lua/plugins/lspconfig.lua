@@ -60,6 +60,8 @@ return {
                 "java-test",
                 "java-debug-adapter",
                 "markdown-toc",
+                "delve",
+                "gofumpt",
             },
         }
     },

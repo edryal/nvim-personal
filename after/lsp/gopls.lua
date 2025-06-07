@@ -16,7 +16,8 @@ return {
             usePlaceholders = true,
             analyses = {
                 unusedparams = true,
+                shadow = true,
             }
         }
-    },
+    }
 }

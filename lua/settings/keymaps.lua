@@ -1,5 +1,6 @@
 local opts = { noremap = true, silent = true }
 local map = vim.api.nvim_set_keymap
+local set = vim.keymap.set
 
 -- [[ Stay in Visual ]]
 map("v", "<", "<gv", opts)
@@ -27,23 +28,14 @@ map("n", "<leader>wh", ":split<cr>", Expand_Opts("Split Horizontal"))
 map("n", "<leader>ct", ":TodoFzfLua<cr>", Expand_Opts("TODOs"))
 
 -- [[ Toggles ]]
-map("n", "<leader>td", ':lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<cr>', Expand_Opts("Diagnostics"))
-
-local using_lsp_lines = false
 local function toggle_diagnostic_display()
-  using_lsp_lines = not using_lsp_lines
-
-  if using_lsp_lines then
-    vim.diagnostic.config({ virtual_text = false })
-    require("lsp_lines").toggle()
-  else
-    require("lsp_lines").toggle()
-    vim.diagnostic.config({ virtual_text = true })
-  end
+  require("lsp_lines").toggle()
+  local virtual_text = not vim.diagnostic.config().virtual_text
+  vim.diagnostic.config({ virtual_text = virtual_text })
 end
 
-_G.toggle_diagnostic_display = toggle_diagnostic_display
-map("n", "<leader>tl", ':lua _G.toggle_diagnostic_display()<cr>', Expand_Opts("Diagnostics Style"))
+set("n", "<leader>tl", toggle_diagnostic_display, Expand_Opts("Diagnostics Style"))
+map("n", "<leader>td", ':lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<cr>', Expand_Opts("Diagnostics"))
 
 -- [[ Buffers ]]
 map("n", "<leader>bo", ':BufDelOthers<cr>', Expand_Opts("Close All Other Buffers"))
@@ -55,7 +47,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function()
     local bufmap = function(mode, lhs, rhs, desc)
       local lspopts = { desc = desc, noremap = true, silent = true, buffer = true }
-      vim.keymap.set(mode, lhs, rhs, lspopts)
+      set(mode, lhs, rhs, lspopts)
     end
 
     bufmap('n', 'L', ":lua vim.lsp.buf.signature_help()<cr>", "Show Signature Help")
