@@ -126,7 +126,18 @@ M.setup_cpp_debugger = function()
             type = "gdb",
             request = "launch",
             program = function()
-                return vim.fn.getcwd() .. "/build/main"
+                local co = coroutine.running()
+                vim.system({ "./build.sh" }, { text = true }, function(obj)
+                    vim.schedule(function()
+                        if obj.code ~= 0 then
+                            vim.notify("Build failed:\n" .. (obj.stderr or ""), vim.log.levels.ERROR)
+                            coroutine.resume(co, dap.ABORT)
+                        else
+                            coroutine.resume(co, vim.fn.getcwd() .. "/build/main")
+                        end
+                    end)
+                end)
+                return coroutine.yield()
             end,
             cwd = "${workspaceFolder}",
             stopAtBeginningOfMainSubprogram = false,

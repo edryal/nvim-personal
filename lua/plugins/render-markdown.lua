@@ -1,8 +1,6 @@
 require("render-markdown").setup({
     enabled = true,
-    completions = {
-        lsp = { enabled = true },
-    },
+    completions = { lsp = { enabled = true } },
     file_types = { "markdown", "vimwiki" },
 })
 

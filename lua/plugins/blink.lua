@@ -1,9 +1,7 @@
 require("blink.cmp").build():pwait()
 require("blink.cmp").setup({
     enabled = function()
-        return not vim.tbl_contains({
-            "dap-repl", "dapui-console"
-        }, vim.bo.filetype)
+        return not vim.tbl_contains({ "dap-repl", "dapui-console" }, vim.bo.filetype)
     end,
     keymap = {
         preset = "enter",
@@ -26,17 +24,11 @@ require("blink.cmp").setup({
             ['<A-space>'] = { 'show', 'fallback' },
         },
         completion = {
-            menu = {
-                auto_show = true,
-            },
-            ghost_text = {
-                enabled = false,
-            },
+            menu = { auto_show = true },
+            ghost_text = { enabled = false },
         },
     },
-    appearance = {
-        nerd_font_variant = "mono",
-    },
+    appearance = { nerd_font_variant = "mono" },
     sources = {
         default = { "lsp", "path", "buffer" },
         per_filetype = {

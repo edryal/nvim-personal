@@ -1,8 +1,6 @@
 require('kanagawa').setup({
     theme = "wave",
-    background = {
-        dark = "wave",
-    },
+    background = { dark = "wave" },
     overrides = function(colors)
         local theme = colors.theme
         return {

@@ -140,58 +140,41 @@ local function jdtls_on_attach(client, bufnr)
         },
     }
 
-    vim.keymap.set("n", "<leader>jo", function()
-        jdtls.organize_imports()
-    end, { desc = "Organize Imports", buffer = bufnr })
-
-    vim.keymap.set("n", "<leader>ju", function()
-        jdtls.update_project_config()
-    end, { desc = "Refresh Project", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jo", function() jdtls.organize_imports() end,
+        { desc = "Organize Imports", buffer = bufnr })
+    vim.keymap.set("n", "<leader>ju", function() jdtls.update_project_config() end,
+        { desc = "Refresh Project", buffer = bufnr })
 
     -- Refactoring
-    vim.keymap.set({ "n", "v" }, "<leader>je", function()
-        jdtls.extract_variable_all()
-    end, { desc = "Extract Choices", buffer = bufnr })
-
-    vim.keymap.set("n", "<leader>jg", function()
-        vim.lsp.buf.code_action({ context = { only = { "source.generate" } } })
-    end, { desc = "Generate Menu", buffer = bufnr })
+    vim.keymap.set({ "n", "v" }, "<leader>je", function() jdtls.extract_variable_all() end,
+        { desc = "Extract Choices", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jg",
+        function() vim.lsp.buf.code_action({ context = { only = { "source.generate" } } }) end,
+        { desc = "Generate Menu", buffer = bufnr })
 
     -- Commands
     vim.keymap.set("n", "<leader>jR", "<cmd>JdtSetRuntime<cr>", { desc = "Set Java Runtime", buffer = bufnr })
     vim.keymap.set("n", "<leader>jc", "<cmd>JdtCompile full<cr>", { desc = "Compile Project", buffer = bufnr })
 
     -- Testing
-    vim.keymap.set("n", "<leader>jtp", function()
-        jdtls.pick_test(test_opts)
-    end, { desc = "Pick Test Method", buffer = bufnr })
-
-    vim.keymap.set("n", "<leader>jtm", function()
-        jdtls.test_nearest_method(test_opts)
-    end, { desc = "Test Method Under Cursor", buffer = bufnr })
-
-    vim.keymap.set("n", "<leader>jtc", function()
-        jdtls.test_class(test_opts)
-    end, { desc = "Test Entire Class", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jtp", function() jdtls.pick_test(test_opts) end,
+        { desc = "Pick Test Method", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jtm", function() jdtls.test_nearest_method(test_opts) end,
+        { desc = "Test Method Under Cursor", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jtc", function() jdtls.test_class(test_opts) end,
+        { desc = "Test Entire Class", buffer = bufnr })
 
     -- Boilerplate
     local boiler = require("utils.java-boilerplate")
 
-    vim.keymap.set("n", "<leader>jbc", function()
-        boiler.generate_java_boilerplate("class")
-    end, { desc = "New Class", buffer = bufnr })
-
-    vim.keymap.set("n", "<leader>jbe", function()
-        boiler.generate_java_boilerplate("enum")
-    end, { desc = "New Enum", buffer = bufnr })
-
-    vim.keymap.set("n", "<leader>jbi", function()
-        boiler.generate_java_boilerplate("interface")
-    end, { desc = "New Interface", buffer = bufnr })
-
-    vim.keymap.set("n", "<leader>jbs", function()
-        boiler.sync_java_identifier_name()
-    end, { desc = "Sync Name to Filename", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jbc", function() boiler.generate_java_boilerplate("class") end,
+        { desc = "New Class", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jbe", function() boiler.generate_java_boilerplate("enum") end,
+        { desc = "New Enum", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jbi", function() boiler.generate_java_boilerplate("interface") end,
+        { desc = "New Interface", buffer = bufnr })
+    vim.keymap.set("n", "<leader>jbs", function() boiler.sync_java_identifier_name() end,
+        { desc = "Sync Name to Filename", buffer = bufnr })
 end
 
 local function jdtls_setup()

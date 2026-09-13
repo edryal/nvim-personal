@@ -1,10 +1,10 @@
 require("gitsigns").setup({
-	signcolumn = true,
-	current_line_blame = true,
-	current_line_blame_opts = {
-		delay = 1200,
-		virtual_text_pos = "eol",
-	},
+    signcolumn = true,
+    current_line_blame = true,
+    current_line_blame_opts = {
+        delay = 1200,
+        virtual_text_pos = "eol",
+    },
 })
 
 vim.keymap.set({ "n", "v" }, "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Reset Hunk", silent = true })

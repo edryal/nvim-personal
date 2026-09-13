@@ -1,6 +1,4 @@
 require("rose-pine").setup({
     variant = "auto",
-    styles = {
-        transparency = true
-    }
+    styles = { transparency = true },
 })

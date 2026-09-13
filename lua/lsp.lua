@@ -1,5 +1,4 @@
 local features = require("features")
-
 local lsps = { "lua_ls", "bashls", "lemminx", "jsonls" }
 
 if features.go and features.go.enabled then

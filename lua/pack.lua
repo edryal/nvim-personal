@@ -35,6 +35,7 @@ local plugin_urls = {
     -- optional
     "https://github.com/hedyhli/outline.nvim",
     "https://github.com/folke/lazydev.nvim",
+    "https://github.com/3rd/image.nvim",
     -- colorschemes
     "https://github.com/olimorris/onedarkpro.nvim",
     "https://github.com/nyoom-engineering/oxocarbon.nvim",
@@ -91,6 +92,7 @@ require("plugins.fidget")
 require("plugins.fzf-lua")
 require("plugins.snacks")
 require("plugins.toggleterm")
+require("plugins.image")
 
 if features.markdown and features.markdown.enabled then
     require("plugins.render-markdown")

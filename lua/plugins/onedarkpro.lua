@@ -7,29 +7,29 @@ local green = "#9ece6a"
 local blue = "#3d59a1"
 
 require("onedarkpro").setup({
-	plugins = { all = true },
-	styles = {
-		comments = "italic",
-		keywords = "bold,italic",
-		conditionals = "italic",
-	},
-	colors = {
-		onedark = { bg = black },
-	},
-	highlights = {
-		NvimTreeRootFolder = { link = "Normal", style = "bold" },
-		NvimTreeFolderIcon = { fg = red },
-		NvimTreeOpenedFolderName = { fg = red },
+    plugins = { all = true },
+    styles = {
+        comments = "italic",
+        keywords = "bold,italic",
+        conditionals = "italic",
+    },
+    colors = {
+        onedark = { bg = black },
+    },
+    highlights = {
+        NvimTreeRootFolder = { link = "Normal", style = "bold" },
+        NvimTreeFolderIcon = { fg = red },
+        NvimTreeOpenedFolderName = { fg = red },
 
-		-- Java
-		["@attribute"] = { fg = yellow, italic = true },
-		["@lsp.type.modifier.java"] = { fg = purple },
-		["@parameter"] = { fg = orange },
-		["@variable.builtin"] = { fg = purple, italic = true },
+        -- Java
+        ["@attribute"] = { fg = yellow, italic = true },
+        ["@lsp.type.modifier.java"] = { fg = purple },
+        ["@parameter"] = { fg = orange },
+        ["@variable.builtin"] = { fg = purple, italic = true },
         ["@function.builtin.java"] = { fg = purple, italic = true }
-	},
-	options = {
-		cursorline = false,
-		transparency = true,
-	},
+    },
+    options = {
+        cursorline = false,
+        transparency = true,
+    },
 })
